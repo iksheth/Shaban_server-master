@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- Edit Course -->
+        <div class="well">
+          <% include _course_form %>
+        </div>
+      <!-- Add new lecture -->
+        <div class="well">
+          <% include _lecture_form %>
+        </div>
+      <!-- Add new Sub Course -->
+        <div class="well">
+          <% include _subcourse_form.ejs %>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+      <!-- Sub Course list -->
+
+        <div class="well">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (course of subCources) { %>
+            <tr>
+              <td><%= course.name %></td>
+              <td>
+                <form method="post" action="/course/delete" class="form-inline delete-item">
+                  <a class="form-control btn btn-primary btn-sm" href="/course/<%= course.id %>/edit">Edit</a>
+                  <input type="hidden" name="id" value="<%= course.id %>">
+                  <input type="submit" class="form-control btn btn-danger btn-sm" value="Delete">
+                </form>
+              </td>
+            </tr>
+            <% } %>
+            </tbody>
+          </table>
+        </div>
+
+      <!-- Lecture list -->
+
+        <div class="well">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Lecture Name</th>
+              <th>Transcript</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (lecture of lectures) { %>
+            <tr>
+              <td><%= lecture.description %></td>
+              <td>
+                <% if (lecture.transcript_url) { %>
+                <a class="" href="<%= lecture.transcript_url %>" target="_blank">Preview Uploaded Transcript</a>
+                <% } %>
+              </td>
+
+              <td>
+                <form method="post" action="/lecture/delete" class="form-inline delete-item">
+                  <a href="/lecture/<%= lecture.id %>/edit" class="form-control btn btn-primary btn-sm">Edit</a>
+                  <input type="hidden" name="id" value="<%= lecture.id %>">
+                  <input type="submit" class="form-control btn btn-danger btn-sm" value="Delete">
+                </form>
+              </td>
+            </tr>
+            <% } %>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>

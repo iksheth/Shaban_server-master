@@ -1,0 +1,36 @@
+<%
+    var name = '';
+    var button = 'Create';
+    var id = 0;
+    var heading = 'Add a new Sub Course'
+    var parent = 0
+    if (typeof c === 'object') {
+        parent = c.id;
+    }
+%>
+<form method="post" action="/course" class="form-horizontal">
+
+    <h4 class="text-center"><%= heading %></h4>
+
+    <!-- hidden id -->
+    <input type="hidden" name="id" value="<%= id %>">
+
+    <!-- hidden id -->
+    <input type="hidden" name="parent" value="<%= parent %>">
+
+    <!-- name -->
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="course name">Course Name</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="course name" name="name" value="<%= name %>">
+        </div>
+    </div>
+
+    <!-- button -->
+    <div class="form-group">
+          <div class="col-md-offset-3 col-lg-6">
+            <input class="form-control btn btn-primary" type="submit" value="<%= button %>">
+        </div>
+
+    </div>
+</form>
