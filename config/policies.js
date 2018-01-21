@@ -51,13 +51,15 @@ module.exports.policies = {
     },
 
     UsersController: {
-        'find': 'findOneUser',
-        'findOne': true
+      'find': 'findOneUser',
+      'findOne': true,
+      'registration' : true,
+      'profileUpdate': true
     },
 
     MessagesController: {
         '*': true
-    }, 
+    },
 
     AdminController: {
         'authenticate': true,

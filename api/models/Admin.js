@@ -24,6 +24,17 @@ module.exports = {
         password: {
             type: 'string',
         },
+        phone: {
+        type: 'string',
+        required: true,
+        unique: true
+        },
+
+        roleId: {
+        model: 'role',
+        required: true
+        },
+
 
         makeSalt: function() {
             return crypto.randomBytes(16).toString('base64');

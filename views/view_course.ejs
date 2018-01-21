@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <!-- Edit Course -->
+      <div class="well">
+        <!-- name -->
+        <div class="form-group">
+          <label class="control-label col-sm-12" for="course name">Course Name:  <%= c.name %> </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+      <!-- Sub Course list -->
+
+      <div class="well">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for (course of subCources) { %>
+          <tr>
+            <td><%= course.name %></td>
+            <td>
+              <form method="post" action="/course/delete" class="form-inline delete-item">
+                <a class="form-control btn btn-primary btn-sm" href="/course/<%= course.id %>/edit">View</a>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Lecture list -->
+
+      <div class="well">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Lecture Name</th>
+            <th>Transcript</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for (lecture of lectures) { %>
+          <tr>
+            <td><%= lecture.description %></td>
+            <td>
+              <% if (lecture.transcript_url) { %>
+              <a class="" href="<%= lecture.transcript_url %>" target="_blank">Preview Uploaded Transcript</a>
+              <% } %>
+            </td>
+
+            <td>
+              <form method="post" action="/lecture/delete" class="form-inline delete-item">
+                <a href="/lecture/<%= lecture.id %>/edit" class="form-control btn btn-primary btn-sm">View</a>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

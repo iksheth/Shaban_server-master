@@ -22,7 +22,12 @@ module.exports = {
             type: 'string',
             primaryKey: true,
             unique: true
-        }
+        },
+
+      roleId: {
+        model: 'role',
+        required: true
+      }
     }
 };
 

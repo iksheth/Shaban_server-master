@@ -93,7 +93,15 @@ module.exports.routes = {
   '/files/:filename': {
     controller: 'FileController',
     action: 'findOne'
-  }
+  },
 
+  '/register': {
+    view: 'register'
+  },
+
+  '/registration':{
+    controller: 'UsersController',
+    action: 'registration'
+  }
 
 };
