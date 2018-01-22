@@ -39,7 +39,10 @@
               <%= document.title %>
               <%}%>
             </td>
-            <td><a href="<%= document.url %>">Preview Document</a></td>
+            <td>
+              <%if(document.url) {%>
+              <a href="<%= document.url %>">Preview Document</a></td>
+              <%}%>
             <td>
               <form method="post" action="/document/delete" class="form-inline delete-item">
                 <a href="/document/<%= document.id %>/edit" class="form-control btn btn-primary btn-sm">Edit</a>
