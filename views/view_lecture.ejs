@@ -27,6 +27,7 @@
         <thead>
         <tr>
           <th>Document Title</th>
+          <th>URL</th>
           <th>Actions</th>
         </tr>
         </thead>
@@ -52,6 +53,7 @@
             <%= document.title %>
             <% } %>
           </td>
+          <td><a href="<%= document.url %>">Preview Document</a></td>
           <td>
             <form method="post" action="/document/delete" class="form-inline delete-item">
               <a href="<%= document.url %>" class="form-control btn btn-primary btn-sm">View</a>
