@@ -26,7 +26,7 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 81,
+  port: 80,
 
     /**************************************************************************
      * Must set appUrl to base folder
