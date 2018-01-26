@@ -10,80 +10,93 @@ var path = require('path');
 
 module.exports = {
 
-    attributes: {
+  attributes: {
 
-        course : {
-            model: 'course',
-            required: true
-        },
-
-        serial_number : {
-            type: 'integer',
-            required: true
-        },
-
-        description : {
-            type: 'string',
-            required: true
-        },
-
-        transcript_url: {
-            type: 'string'
-        },
-
-        document: {
-            collection: 'document',
-            via: 'lecture'
-        }
-
+    course: {
+      model: 'course',
+      required: true
     },
 
-    afterDestroy: function(lectures, cb){
-        for (lecture of lectures) {
-            if (lecture.transcript_url) {
-                console.log("Deleting ", path.basename(lecture.transcript_url));
-                uploader.removeFile(lecture.transcript_url);
-            }
-            Document.destroy({lecture: lecture.id}).exec(function(err){
-                if (err) {
-                    console.log(err);
-                }
-            });
-            Messages.destroy({group: lecture.id}).exec(function(err){
-                if (err) {
-                    console.log(err);
-                }
-            });
-        }
-
-        cb();
+    serial_number: {
+      type: 'integer',
+      required: true
     },
 
-/*    beforeUpdate: function(valuesToUpdate, cb) {*/
-        //console.log("beforeUpdate");
-        //console.log(valuesToUpdate);
+    description: {
+      type: 'string',
+      required: true
+    },
 
-        //if(valuesToUpdate.transcript_url) {
-            //Lecture.findOne(valuesToUpdate.id).exec(err, function(lecture){
-                    //if (err) {
-                        //cb(err);
-                    //}
+    transcript_url: {
+      type: 'string'
+    },
 
-                    //if (!lecture) {
-                        //return cb(new Error("Lecture not found!"));
-                    //}
+    document: {
+      collection: 'document',
+      via: 'lecture'
+    },
 
-                    //if (lecture.transcript_url && valuesToUpdate.transcript_url !== lecture.transcript_url){
-                        //console.log("Deleting ", path.basename(this.transcript_url));
-                        //uploader.removeFile(lecture.transcript_url);
-                    //}
-                    //cb();
-                //});
-        //} else {
-            //cb();
-        //}
+    resource: {
+      collection: 'resource',
+      via: 'lecture'
+    }
 
-    /*}*/
+
+  },
+
+  afterDestroy: function (lectures, cb) {
+    for (lecture of lectures) {
+      if (lecture.transcript_url) {
+        console.log("Deleting ", path.basename(lecture.transcript_url));
+        uploader.removeFile(lecture.transcript_url);
+      }
+      Document.destroy({lecture: lecture.id}).exec(function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+
+      Resource.destroy({lecture: lecture.id}).exec(function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+
+      Messages.destroy({group: lecture.id}).exec(function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+
+    cb();
+  },
+
+  /*    beforeUpdate: function(valuesToUpdate, cb) {*/
+  //console.log("beforeUpdate");
+  //console.log(valuesToUpdate);
+
+  //if(valuesToUpdate.transcript_url) {
+  //Lecture.findOne(valuesToUpdate.id).exec(err, function(lecture){
+  //if (err) {
+  //cb(err);
+  //}
+
+  //if (!lecture) {
+  //return cb(new Error("Lecture not found!"));
+  //}
+
+  //if (lecture.transcript_url && valuesToUpdate.transcript_url !== lecture.transcript_url){
+  //console.log("Deleting ", path.basename(this.transcript_url));
+  //uploader.removeFile(lecture.transcript_url);
+  //}
+  //cb();
+  //});
+  //} else {
+  //cb();
+  //}
+
+  /*}*/
 
 };
 

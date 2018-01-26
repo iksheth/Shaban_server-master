@@ -5,10 +5,16 @@
       <div class="well">
         <% include _lecture_form %>
       </div>
-      <!-- Add new Documet -->
+      <!-- Add new Document -->
 
       <div class="well">
         <% include _document_form %>
+      </div>
+
+      <!-- Add new  resource -->
+
+      <div class="well">
+        <% include _resource_form %>
       </div>
     </div>
 
@@ -56,5 +62,46 @@
         </table>
       </div>
     </div>
+
+    <!-- Resource list -->
+
+    <div class="col-sm-6">
+      <div class="well">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Resource Title</th>
+            <!--<th>Description</th>-->
+            <th class="text-center">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for (resource of resources) { %>
+          <tr>
+            <td>
+              <%= resource.title %>
+            </td>
+            <!--<td>-->
+              <!--<%if(resource.url) {%>-->
+              <!--<a href="<%= resource.url %>">Preview resource</a>-->
+            <!--<%}%>-->
+            <!--<td>-->
+            <td class="text-center">
+              <form method="post" action="/resource/delete" class="form-inline delete-item">
+                <%if(resource.url) {%>
+                <a href="<%= resource.url %>" class="form-control btn btn-success btn-sm" target="_blank">Open</a>
+                <%}%>
+                <a href="/resource/<%= resource.id %>/edit" class="form-control btn btn-primary btn-sm">Edit</a>
+                <input type="hidden" name="id" value="<%= resource.id %>">
+                <input type="submit" class="form-control btn btn-danger btn-sm" value="Delete">
+              </form>
+            </td>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>

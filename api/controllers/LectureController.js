@@ -119,26 +119,34 @@ module.exports = {
             return res.negotiate(err);
           }
 
-          if(role == 1) {
-            return res.view('view_lecture', {
-              title: 'View Lecture',
-              c: course,
-              lecture: lecture,
-              documents: document,
-              document: undefined
-            });
-          }
-          else{
-            return res.view('edit_lecture', {
-              title: 'Edit Lecture',
-              c: course,
-              lecture: lecture,
-              documents: document,
-              document: undefined
-            });
-          }
+          Resource.find({lecture: lectureId}).sort("id ASC").exec(function (err, resource) {
+            if (err) {
+              return res.negotiate(err);
+            }
 
-
+            if (role == 1) {
+              return res.view('view_lecture', {
+                title: 'View Lecture',
+                c: course,
+                lecture: lecture,
+                documents: document,
+                document: undefined,
+                resources: resource,
+                resource: undefined
+              });
+            }
+            else {
+              return res.view('edit_lecture', {
+                title: 'Edit Lecture',
+                c: course,
+                lecture: lecture,
+                documents: document,
+                document: undefined,
+                resources: resource,
+                resource: undefined
+              });
+            }
+          });
         });
       });
 

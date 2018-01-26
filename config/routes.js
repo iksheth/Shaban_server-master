@@ -90,6 +90,11 @@ module.exports.routes = {
     action: 'edit'
   },
 
+  '/resource/:id/edit': {
+    controller: 'Resource',
+    action: 'edit'
+  },
+
   '/files/:filename': {
     controller: 'FileController',
     action: 'findOne'
