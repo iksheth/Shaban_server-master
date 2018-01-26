@@ -7,8 +7,8 @@
         <!-- name -->
         <div class="form-group">
           <div class="text-center">
-          <h4 class="control-label">Course Name: <%= lecture.description %> </h4>
-          <hr>
+            <h4 class="control-label">Course Name: <%= lecture.description %> </h4>
+            <hr>
             <% if (lecture.transcript_url) { %>
             <a class="btn btn-info" href="<%= lecture.transcript_url %>"> View Transcript </a>
             <% } %>
@@ -19,51 +19,82 @@
 
     </div>
 
-  <!-- Document list -->
+    <!-- Document list -->
 
-  <div class="col-sm-8">
-    <div class="well">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Document Title</th>
-          <th>URL</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% for (document of documents) { %>
-        <tr>
-          <td>
-            <% if(document.url.split('.').pop() == "pdf" && (document.url.split('.').pop() != "mov" || document.url.split('.').pop() != "mp4" || document.url.split('.').pop() != "mpeg")){ %>
-            <i class="fa fa-file-pdf-o" style="font-size:24px"></i>
-            <% } %>
-            <% if((document.url.split('.').pop() == "mpeg" || document.url.split('.').pop() == "mp3") && (document.url.split('.').pop() != "mov" || document.url.split('.').pop() != "mp4" || document.url.split('.').pop() != "pdf")){ %>
-            <i class="fa fa-file-audio-o" style="font-size:24px"></i>
-            <% } %>
-            <% if((document.url.split('.').pop() == "mov" || document.url.split('.').pop() == "mp4") && (document.url.split('.').pop() != "pdf" || document.url.split('.').pop() != "mpeg")){ %>
-            <i class="fa fa-file-movie-o" style="font-size:24px"></i>
-            <% } %>
-            <% if(document.url.split('.').pop() != "pdf" && document.url.split('.').pop() != "mov" && document.url.split('.').pop() != "mp4" && document.url.split('.').pop() != "mpeg" && document.url.split('.').pop() != "mp3"){ %>
-            <i class="fa fa-file-image-o" style="font-size:24px"></i>
-            <% } %>
-            <% if (document.url) { %>
-            <a class="" id="url" href="<%= document.url %>" target="_blank"><%= document.title %></a>
-            <% } else { %>
-            <%= document.title %>
-            <% } %>
-          </td>
-          <td><a href="<%= document.url %>">Preview Document</a></td>
-          <td>
-            <form method="post" action="/document/delete" class="form-inline delete-item">
-              <a href="<%= document.url %>" class="form-control btn btn-primary btn-sm">View</a>
-            </form>
-          </td>
-        </tr>
-        <% } %>
-        </tbody>
-      </table>
+    <div class="col-sm-8">
+      <div class="well">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Document Title</th>
+            <th>URL</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for (document of documents) { %>
+          <tr>
+            <td>
+              <% if(document.url.split('.').pop() == "pdf" && (document.url.split('.').pop() != "mov" || document.url.split('.').pop() != "mp4" || document.url.split('.').pop() != "mpeg")){ %>
+              <i class="fa fa-file-pdf-o" style="font-size:24px"></i>
+              <% } %>
+              <% if((document.url.split('.').pop() == "mpeg" || document.url.split('.').pop() == "mp3") && (document.url.split('.').pop() != "mov" || document.url.split('.').pop() != "mp4" || document.url.split('.').pop() != "pdf")){ %>
+              <i class="fa fa-file-audio-o" style="font-size:24px"></i>
+              <% } %>
+              <% if((document.url.split('.').pop() == "mov" || document.url.split('.').pop() == "mp4") && (document.url.split('.').pop() != "pdf" || document.url.split('.').pop() != "mpeg")){ %>
+              <i class="fa fa-file-movie-o" style="font-size:24px"></i>
+              <% } %>
+              <% if(document.url.split('.').pop() != "pdf" && document.url.split('.').pop() != "mov" && document.url.split('.').pop() != "mp4" && document.url.split('.').pop() != "mpeg" && document.url.split('.').pop() != "mp3"){ %>
+              <i class="fa fa-file-image-o" style="font-size:24px"></i>
+              <% } %>
+              <% if (document.url) { %>
+              <a class="" id="url" href="<%= document.url %>" target="_blank"><%= document.title %></a>
+              <% } else { %>
+              <%= document.title %>
+              <% } %>
+            </td>
+            <td><a href="<%= document.url %>">Preview Document</a></td>
+            <td>
+              <form method="post" action="/document/delete" class="form-inline delete-item">
+                <a href="<%= document.url %>" class="form-control btn btn-primary btn-sm">View</a>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <!-- Resource list -->
+
+    <div class="col-sm-6">
+      <div class="well">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Resource Title</th>
+            <!--<th>Description</th>-->
+            <th class="text-center">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for (resource of resources) { %>
+          <tr>
+            <td>
+              <%= resource.title %>
+            </td>
+            <td class="text-center">
+                <% if(resource.url) { %>
+                <a href="<%= resource.url %>" class="form-control btn btn-success btn-sm" target="_blank">Open</a>
+                <% } %>
+            </td>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
-</div>
 </div>
