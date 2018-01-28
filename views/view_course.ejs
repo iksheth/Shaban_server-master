@@ -1,4 +1,5 @@
-<div class="container">
+<% include breadcrumbs.ejs %>
+<div class="container-fluid margin-top-20">
   <div class="row">
     <div class="col-sm-4">
       <!-- Course Details-->
@@ -27,7 +28,7 @@
             <td><%= course.name %></td>
             <td>
               <form method="post" action="/course/delete" class="form-inline delete-item">
-                <a class="form-control btn btn-primary btn-sm" href="/course/<%= course.id %>/edit">View</a>
+                <a class="form-control btn btn-primary btn-sm" href="/course/<%= course.id %>/edit">Enter</a>
               </form>
             </td>
           </tr>
@@ -59,7 +60,7 @@
 
             <td>
               <form method="post" action="/lecture/delete" class="form-inline delete-item">
-                <a href="/lecture/<%= lecture.id %>/edit" class="form-control btn btn-primary btn-sm">View</a>
+                <a href="/lecture/<%= lecture.id %>/edit" class="form-control btn btn-primary btn-sm">Enter</a>
               </form>
             </td>
           </tr>

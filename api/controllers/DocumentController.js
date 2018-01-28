@@ -1,4 +1,5 @@
 var path = require('path');
+var parentFinder = require('../services/parentFinder');
 
 module.exports = {
     edit: function(req, res) {
@@ -8,7 +9,16 @@ module.exports = {
                 return res.negotiate(err);
             }
 
-            return res.view('edit_document', {document: document});
+            var arr = [];
+            parentFinder.find_parent_document(document.id, arr, function (list) {
+              return res.view('edit_document', {
+                layout: 'layout_private',
+                nav_title: document.title,
+                document: document,
+                list: list
+              });
+
+            });
 
         });
     },
@@ -28,9 +38,9 @@ module.exports = {
         var title = req.param('title');
         var documentId = req.param('id');
         var lectureId = req.param('lecture');
-        var order = req.param('order');
 
-        if (!title || !lectureId  || !order || !req.file('document')) {
+
+        if (!title || !lectureId) {
             return res.badRequest('Document title | order | file is required!');
         }
 
@@ -58,14 +68,14 @@ module.exports = {
         };
 
         if ( documentId === '0') {
-            Document.create({title: title, lecture: lectureId, order: order, url: ''}, function(err, document){
+            Document.create({title: title, lecture: lectureId}, function(err, document){
                 if (err) {
                     return res.negotiate(err);
                 }
                 uploadFile(document);
             });
         } else {
-            Document.update({id: documentId}, {title: title, order: order},
+            Document.update({id: documentId}, {title: title},
                 function(err, document){
                     if (err) {
                         return res.negotiate(err);

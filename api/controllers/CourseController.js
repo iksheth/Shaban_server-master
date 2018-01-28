@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var parentFinder = require('../services/parentFinder');
+
 module.exports = {
 
   create: function (req, res) {
@@ -15,10 +17,9 @@ module.exports = {
 
     var courseId = req.param('id');
     var parent = req.param('parent');
-    console.log(req);
 
     if (courseId === '0') {
-      Course.create({name: name,parent:parent}, function (err, course) {
+      Course.create({name: name, parent: parent}, function (err, course) {
         if (err) {
           return res.negotiate(err);
         }
@@ -37,30 +38,46 @@ module.exports = {
   list: function (req, res) {
     var role = req.session.user.roleId;
     var x = Course;
+    var list = {title: "Home", url: "/Home"};
+    var nav_title = "Shaban";
+
     x.parent = 2;
-    Course.find({parent:0}).sort("id DESC").exec(function(err, courses){
+    Course.find({parent: 0}).sort("id DESC").exec(function (err, courses) {
       if (err) {
         return res.negotiate(err);
       }
-      if(role == 1) {
-        return res.view('student_course_list', {courses: courses});
-      }else{
-        return res.view('course_list', {courses: courses});
+      if (role == 1) {
+        return res.view('student_course_list',
+          {
+            layout: 'layout_private',
+            courses: courses,
+            list: list,
+            nav_title: nav_title
+          });
+      } else {
+        return res.view('course_list',
+          {
+            layout: 'layout_private',
+            courses: courses,
+            list: list,
+            nav_title: nav_title
+          });
       }
     });
-   //  Course.find({parent: 0}).sort("id DESC").exec(function (err, courses) {
-   //    if (err) {
-   //      return res.negotiate(err);
-   //    }
-   //    return res.view('course_list', {courses: courses});
-   //  });
-   // console.log(require('path').resolve(sails.config.appPath));
+    //  Course.find({parent: 0}).sort("id DESC").exec(function (err, courses) {
+    //    if (err) {
+    //      return res.negotiate(err);
+    //    }
+    //    return res.view('course_list', {courses: courses});
+    //  });
+    // console.log(require('path').resolve(sails.config.appPath));
   },
 
   edit: function (req, res) {
     var courseId = req.param('id');
     var role = req.session.user.roleId;
     var subCourse = Course;
+    var list;
 
     Course.findOne({id: courseId}, function (err, course) {
       if (err) {
@@ -68,7 +85,7 @@ module.exports = {
       }
 
 
-      Lecture.find({course: courseId}).sort("serial_number ASC").exec(function (err, lectures) {
+      Lecture.find({course: courseId}).exec(function (err, lectures) {
         if (err) {
           return res.negotiate(err);
         }
@@ -77,24 +94,37 @@ module.exports = {
         subCourse.find({parent: courseId}, function (err, subArray) {
           console.log(role);
 
-          if(role == 1) {
-            return res.view('view_course', {
-              title: 'View Details',
-              c: course,
-              lectures: lectures,
-              lecture: undefined,
-              subCources: subArray
-            });
-          }
-          else{
-            return res.view('edit_course', {
-              title: 'Edit Course',
-              c: course,
-              lectures: lectures,
-              lecture: undefined,
-              subCources: subArray
-            });
-          }
+          var arr = [];
+          parentFinder.find_parent_course(course.id, arr, function (list) {
+
+            console.log(list);
+
+            if (role == 1) {
+              return res.view('view_course', {
+                layout: 'layout_private',
+                nav_title: course.name,
+                title: 'View Details',
+                c: course,
+                lectures: lectures,
+                lecture: undefined,
+                subCources: subArray,
+                list: list
+              });
+            }
+            else {
+              return res.view('edit_course', {
+                layout: 'layout_private',
+                nav_title: course.name,
+                title: 'Edit Course',
+                c: course,
+                lectures: lectures,
+                lecture: undefined,
+                subCources: subArray,
+                list: list
+              });
+            }
+          });
+
         });
       });
     });

@@ -17,11 +17,6 @@ module.exports = {
       required: true
     },
 
-    serial_number: {
-      type: 'integer',
-      required: true
-    },
-
     description: {
       type: 'string',
       required: true

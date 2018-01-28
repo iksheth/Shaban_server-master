@@ -15,7 +15,15 @@ module.exports = {
         return res.negotiate(err);
       }
 
-      return res.view('edit_resource', {resource: resource});
+      var arr = [];
+      parentFinder.find_parent_resource(id, arr, function (list) {
+        return res.view('edit_resource', {
+          layout: 'layout_private',
+          nav_title: resource.title,
+          resource: resource,
+          list: list
+        });
+      });
 
     });
   },
@@ -35,11 +43,10 @@ module.exports = {
     var title = req.param('title');
     var resourceId = req.param('id');
     var lectureId = req.param('lecture');
-    var order = req.param('order');
     var url = req.param('url');
 
-    if (!title || !lectureId || !order) {
-      return res.badRequest('xxx title | order | file is required!');
+    if (!title || !lectureId) {
+      return res.badRequest('Resource title |  | file is required!');
     }
 
     // var uploadFile = function(document){
@@ -66,7 +73,7 @@ module.exports = {
     // };
 
     if (resourceId === '0') {
-      Resource.create({title: title, lecture: lectureId, order: order, url: url}, function (err, resource) {
+      Resource.create({title: title, lecture: lectureId, url: url}, function (err, resource) {
         if (err) {
           return res.negotiate(err);
         }

@@ -1,0 +1,15 @@
+<% if(list){ %>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <% for (x of list) { %>
+    <li class="breadcrumb-item"><a href="/<%= x.url %>"><%= x.title %></a></li>
+    <% } %>
+    <% } %>
+  </ol>
+</nav>
+
+
+
+
+

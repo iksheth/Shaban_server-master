@@ -20,10 +20,6 @@ module.exports = {
     url : {
       type: 'string'
     },
-
-    order: {
-      type: 'integer'
-    }
   },
 
   // afterDestroy: function(resources, cb){

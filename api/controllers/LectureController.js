@@ -7,6 +7,7 @@
 
 var uploader = require('../services/uploader');
 var path = require('path');
+var parentFinder = require('../services/parentFinder');
 
 module.exports = {
   join: function (req, res) {
@@ -52,10 +53,9 @@ module.exports = {
     var description = req.param('description');
     var courseId = req.param('course');
     var lectureId = req.param('id');
-    var order = req.param('serial_number');
 
-    if (!description || !courseId || !order) {
-      return res.badRequest('Lecture description | order is required!');
+    if (!description || !courseId) {
+      return res.badRequest('Lecture description');
     }
 
     var uploadFile = function (lecture) {
@@ -82,14 +82,14 @@ module.exports = {
     };
 
     if (lectureId === '0') {
-      Lecture.create({description: description, course: courseId, serial_number: order}, function (err, lecture) {
+      Lecture.create({description: description, course: courseId}, function (err, lecture) {
         if (err) {
           return res.negotiate(err);
         }
         uploadFile(lecture);
       });
     } else {
-      Lecture.update({id: lectureId}, {description: description, serial_number: order},
+      Lecture.update({id: lectureId}, {description: description},
         function (err, lectures) {
           if (err) {
             return res.negotiate(err);
@@ -124,28 +124,44 @@ module.exports = {
               return res.negotiate(err);
             }
 
-            if (role == 1) {
-              return res.view('view_lecture', {
-                title: 'View Lecture',
-                c: course,
-                lecture: lecture,
-                documents: document,
-                document: undefined,
-                resources: resource,
-                resource: undefined
-              });
-            }
-            else {
-              return res.view('edit_lecture', {
-                title: 'Edit Lecture',
-                c: course,
-                lecture: lecture,
-                documents: document,
-                document: undefined,
-                resources: resource,
-                resource: undefined
-              });
-            }
+
+            var arr = [];
+            parentFinder.find_parent_lecture(lecture.id, arr, function (list) {
+
+
+              if (role == 1) {
+                return res.view('view_lecture', {
+                  layout: 'layout_private',
+                  nav_title: lecture.description,
+                  title: 'View Lecture',
+                  c: course,
+                  lecture: lecture,
+                  documents: document,
+                  document: undefined,
+                  resources: resource,
+                  resource: undefined,
+                  list: list
+                });
+              }
+              else {
+                return res.view('edit_lecture', {
+                  layout: 'layout_private',
+                  nav_title: lecture.description,
+                  title: 'Edit Lecture',
+                  c: course,
+                  lecture: lecture,
+                  documents: document,
+                  document: undefined,
+                  resources: resource,
+                  resource: undefined,
+                  list: list
+                });
+              }
+
+
+
+
+            });
           });
         });
       });

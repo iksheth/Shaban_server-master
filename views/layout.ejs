@@ -27,14 +27,13 @@
             + Import stylesheets from other directories
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
     -->
-
+    <link rel="stylesheet" href="/public/style/bootstrap.min.css">
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="/styles/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/style.css">
     <!--STYLES END-->
+    <link rel="stylesheet" href="/public/style/style.css">
   </head>
 
   <body>
@@ -52,10 +51,14 @@
       <a href="/home" class="btn navbar-btn">Home</a>
       <!--<a href="/profile" class="btn navbar-btn">Profile</a>-->
       <% if (req.session.user.roleId == 3) { %><a href="/userdetails" class="btn navbar-btn">Users</a><%} %>
+
+
       <a href="/logout" class="btn navbar-btn">Logout</a>
+
       <%} %>
       <!--<a style="float: right;" href="/aboutus" class="btn navbar-btn">About Us</a>-->
     </nav>
+
 
 
     <%- body %>
@@ -111,11 +114,12 @@
 
     -->
 
+
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/dependencies/jquery-3.1.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/confirm-delete.js"></script>
     <!--SCRIPTS END-->
+    <script src="/public/js/bootstrap.min.js"></script>
   </body>
 </html>
